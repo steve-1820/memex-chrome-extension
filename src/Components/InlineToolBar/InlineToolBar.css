@@ -1,0 +1,27 @@
+.inline-tool-bar--highlight-purple {
+    background-color: rgba(130, 99, 255, 0.3);
+}
+
+.inline-tool-bar--highlight-blue {
+    background-color: rgba(38, 197, 244, 0.3);
+}
+
+.inline-tool-bar--highlight-green {
+    background-color: rgba(76, 204, 164, 0.3);
+}
+
+.inline-tool-bar--highlight-orange {
+    background-color: rgba(255, 192, 33, 0.3);
+}
+
+.inline-tool-bar--highlight-red {
+    background-color: rgba(252, 116, 123, 0.3);
+}
+
+.inline-tool-bar--highlight-options {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    margin: 0px 4px;
+    cursor: pointer;
+}

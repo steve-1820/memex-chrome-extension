@@ -1,0 +1,26 @@
+{
+  "name": "Memex Chrome Extension",
+  "version": "1.0",
+  "manifest_version": 2,
+  "browser_action": {
+
+  },
+  "permissions": [
+    "<all_urls>",
+    "storage"
+  ],
+  "content_scripts" : [
+    {
+      "matches": [ "<all_urls>" ],
+      "css": ["/static/css/main.css", "/static/css/content.css"],
+      "js": ["/static/js/content.js", "/static/js/main.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "web_accessible_resources":[
+    "/static/css/content.css",
+    "/mix_anim.gif"
+  ],
+  "content_security_policy": "script-src 'self' 'sha256-ELkDE2InNI702G86lymxXYBdrcJq5bMn8+PhTgN6cks='; object-src 'self'",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAts3WGDMw8v1Tkv5t0nhPtgegvwr+F86XB3a/LB3/VUEz8TeWXmb7Hg7SuyJyfqblBfmn67V/x7zmYVQaxfe2+vtofY1QL+in6ODHp8ozMdVPNbe9R8hDeXXikyVdYeeKfPVHCzxAl+i9RNmb/Ge9hDQW+nhvZy8YKDvLsVJsAKxI8Z0JHmfWBoh/HcDyVhFeyxjO/Hbes5HI+s3jGPl9TXjY+/UZvI4+RgrQooOqndpovGNFRz/zVbiYizGrZJqb4AqF86Tyo5EjYmY9Vg3G1TR/ZnBDJ4a8HxLrn1taE4FZynmMZ5mx6JI/DQVZ5Vx6RF93bIxoo+hQR4K1jDCWkQIDAQAB"
+}
