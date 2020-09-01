@@ -1,7 +1,5 @@
 /*global chrome*/
 import React from 'react'
-import contentStyles from '../../content.module.css'
-import { HighlightOutlined, CommentOutlined } from '@ant-design/icons'
 import rangy from 'rangy'
 import 'rangy/lib/rangy-highlighter'
 import 'rangy/lib/rangy-classapplier'
@@ -9,11 +7,8 @@ import 'rangy/lib/rangy-serializer'
 import 'rangy/lib/rangy-selectionsaverestore.js'
 import './InlineToolBar.css'
 import Popover from "react-text-selection-popover"
-import { Input } from 'antd'
 import {Elements} from "./XPath";
 import Readability from 'readability'
-
-const { TextArea } = Input
 
 export default class InlineToolBar extends React.Component {
   constructor(props) {
@@ -270,8 +265,6 @@ export default class InlineToolBar extends React.Component {
       }
     }
 
-    console.log(range[0].endContainer.parentNode.getBoundingClientRect().top, window.scrollY)
-
     let offsetTop = range[0].endContainer.parentNode.getBoundingClientRect().top + window.scrollY
     let offsetLeft = range[0].endContainer.parentNode.getBoundingClientRect().left + window.scrollX
     return {
@@ -454,160 +447,38 @@ export default class InlineToolBar extends React.Component {
     return ranges;
   }
 
-  _renderComment(snippet, index) {
-    const { newComment, activeCommentIndex } = this.state
-    const deserializedRange = this._deserializeSelection(snippet.serializedSelection)
-    // Need to use range because the native deserialise function automatically sets the selection
-    console.log('snippet', snippet ,'range', deserializedRange)
-    const commentBoxPosition = this._getCommentBoxPositionFromRange(deserializedRange)
-    return (
-      <React.Fragment>
-        <div
-          className={contentStyles['inline-toolbar']}
-          style={{
-            visibility: activeCommentIndex === index ? 'visible' : 'hidden',
-            position: 'absolute',
-            top: commentBoxPosition.top,
-            right: activeCommentIndex === index ? commentBoxPosition.right : -350,
-            width: 350,
-            flexDirection: 'column'
-          }}
-        >
-          <div style={{
-            borderLeft: '2px solid rgba(38, 197, 244, 0.5)',
-            padding: '0px 8px 8px 8px',
-            margin: '16px 0px',
-            width: '100%'
-          }}>
-            <div className={contentStyles['word-break']} style={{display: 'flex', flexWrap: 'wrap', width: '100%'}}
-                 dangerouslySetInnerHTML={{__html: snippet.selectedHtml}}/>
-          </div>
-          {
-            snippet.comments && snippet.comments.map((comment) => {
-              return (
-                <div style={{width: '100%', marginBottom: 8}}>
-                  <div style={{width: '100%', display: 'flex', alignItems: 'center'}}>
-                    <img style={{borderRadius: 8, marginRight: 8}} height="24" width="24"
-                         src={comment.image}/>
-                    <span style={{marginRight: 8, fontSize: 12, fontWeight: 700}}>{comment.author}</span>
-                    <span style={{marginRight: 8, fontSize: 12, color: 'rgba(0, 0, 0, 0.65)'}}>{comment.time}</span>
-                  </div>
-                  <div className={contentStyles['word-break']} style={{display: 'flex', width: '100%', paddingLeft: 32}}>
-                    <span>{comment.text}</span>
-                  </div>
-                </div>
-              )
-            })
-          }
-          <div style={{width: '100%'}}>
-            <div style={{marginBottom: 8}}>
-              <img style={{borderRadius: 8, marginRight: 8}} height="24" width="24"
-                   src={'https://images.squarespace-cdn.com/content/v1/5d649f9517b79d0001af66ae/1566885565865-420GZRYVR1NTY2KLF1DM/ke17ZwdGBToddI8pDm48kMsqkWliX6W_6ekv_6jy-OdZw-zPPgdn4jUwVcJE1ZvWEtT5uBSRWt4vQZAgTJucoTqqXjS3CfNDSuuf31e0tVGY2cY-hRQYGx12NgfETIpVY56Ec50ctUDnauqPlspIoSb8BodarTVrzIWCp72ioWw/profilepic2_circle.png?format=500w'}/>
-              <span style={{marginRight: 8, fontSize: 12, fontWeight: 700}}>Steve Liu</span>
-              <span
-                style={{marginRight: 8, fontSize: 12, color: 'rgba(0, 0, 0, 0.65)'}}>{new Date().toDateString()}</span>
-            </div>
-            <div style={{display: 'flex', justifyContent: 'space-between', width: '100%', paddingLeft: 32}}>
-              <TextArea
-                value={newComment}
-                rows={1}
-                onChange={(e) => {
-                  this.setState({newComment: e.target.value})
-                }}
-                onPressEnter={() => {
-                  this._addToExistingComment(index)
-                }}
-                onClick={(e) => {
-                  e.preventDefault()
-                  e.stopPropagation()
-                }}
-              />
-              <div
-                className={contentStyles['comment-confirm-button']}
-                onClick={() => {
-                  this._addToExistingComment(index)
-                }}
-              >
-                Confirm
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          className={contentStyles['comment-bookmark']}
-          style={{
-            // visibility: activeCommentIndex === index ? 'hidden' : 'visible',
-            right: activeCommentIndex === index ? -96 : null,
-            position: 'absolute',
-            top: commentBoxPosition.top,
-            flexDirection: 'column',
-          }}
-          onClick={(e) => {
-            // this.highlightYellow.toggleSelection()
-            this._showComment(index)
-          }}
-        >
-          <div
-            className={'inline-tool-bar--highlight-blue inline-tool-bar--highlight-options'}
-          />
-        </div>
-      </React.Fragment>
-    )
-  }
 
   render () {
-    const { snippets, newCommentBoxPosition, showNewCommentBox, newComment, popoverOpen, selectedText, selectedHtml } = this.state
     return (
       <div>
-        {/*{*/}
-        {/*  snippets.map((snippet, index) => {*/}
-        {/*    if (snippet.type === 'comments' && snippet.url === window.location.href) {*/}
-        {/*      return this._renderComment(snippet, index)*/}
-        {/*    }*/}
-        {/*  })*/}
-        {/*}*/}
         <Popover>
-          <div id={'inline-toolbar'} className={contentStyles['inline-toolbar']}>
-            {/*<div*/}
-            {/*  onMouseDown={(e) => {*/}
-            {/*    // this.highlightYellow.toggleSelection()*/}
-            {/*    this._addComment()*/}
-            {/*  }}*/}
-            {/*  className={'inline-tool-bar--highlight-options'}*/}
-            {/*>*/}
-            {/*  <CommentOutlined style={{fontSize: 14}}/>*/}
-            {/*</div>*/}
+          <div id={'inline-toolbar'} className={'inline-toolbar'}>
             <div
               onMouseDown={(e) => {
-                // this.highlightYellow.toggleSelection()
                 this._highlight('inline-tool-bar--highlight-purple')
               }}
               className={'inline-tool-bar--highlight-purple inline-tool-bar--highlight-options'}
             />
             <div
               onMouseDown={(e) => {
-                // this.highlightYellow.toggleSelection()
                 this._highlight('inline-tool-bar--highlight-blue')
               }}
               className={'inline-tool-bar--highlight-blue inline-tool-bar--highlight-options'}
             />
             <div
               onMouseDown={(e) => {
-                // this.highlightYellow.toggleSelection()
                 this._highlight('inline-tool-bar--highlight-green')
               }}
               className={'inline-tool-bar--highlight-green inline-tool-bar--highlight-options'}
             />
             <div
               onMouseDown={(e) => {
-                // this.highlightYellow.toggleSelection()
                 this._highlight('inline-tool-bar--highlight-orange')
               }}
               className={'inline-tool-bar--highlight-orange inline-tool-bar--highlight-options'}
             />
             <div
               onMouseDown={(e) => {
-                // this.highlightYellow.toggleSelection()
                 this._highlight('inline-tool-bar--highlight-red')
               }}
               className={'inline-tool-bar--highlight-red inline-tool-bar--highlight-options'}

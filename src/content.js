@@ -1,6 +1,5 @@
 /*global chrome*/
 import React from 'react'
-// import './antd.css'
 import InlineToolBar from './Components/InlineToolBar/InlineToolBar'
 
 
