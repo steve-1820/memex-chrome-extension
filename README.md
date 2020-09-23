@@ -31,3 +31,7 @@ Afterwards you should then:
 2. Turn on developer mode
 3. Drag build folder into extensions page
 
+
+## License
+
+MIT Licence

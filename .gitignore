@@ -31,9 +31,10 @@ node_modules
 .DS_Store
 
 # App packaged
-build
+build/
 
 build*.*
+!build.js
 
 .idea
 npm-debug.log.*
