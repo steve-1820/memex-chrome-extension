@@ -18,6 +18,9 @@ Read the full blog article here: https://www.steveliu.co/memex
 
 ## Install
 
+### `yarn install`
+Install the necessaries modules for the application to build correctly. 
+The installed modules can be found in the `node_modules` folder.  
 
 ### `yarn build`
 
